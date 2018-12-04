@@ -1,0 +1,43 @@
+#!/bin/bash
+
+base_dir="$(cd $(dirname $0)/.. && pwd)"
+cd $base_dir || {
+  echo "Cannot cd to '$base_dir'." >&2
+  exit 1
+}
+
+rc=0
+
+function run_test() {
+  local name=$1
+  local result="SUCCESS"
+  printf "============== begin %s\n" "$name"
+  $name
+  local code=$?
+  if [[ $code -ne 0 ]]; then
+    result="FAILURE"
+  fi
+  rc=$((rc || $code))
+  printf "============== end %s : %s code=%d\n\n\n" "$name" "$result" "$code"
+}
+
+function test_lint() {
+  golangci-lint run ./...
+}
+
+function test_go() {
+  go test -v ./...
+}
+
+
+run_test test_lint
+run_test test_go
+
+
+if [[ $rc -eq 0 ]]; then
+  echo "SUCCESS!"
+else
+  echo "FAILURE... exit code $rc"
+fi
+
+exit $rc
