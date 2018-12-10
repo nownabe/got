@@ -8,4 +8,11 @@ before_script:
 
 script:
   - PATH=`pwd`/bin:$PATH bin/gometalinter ./...
-  - go test -v ./...
+  - go test -coverprofile=coverage.txt -covermode=atomic -v ./...
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+env:
+  global:
+    secure: "FBdSM7fir1YVO1X6HCCj9tOmHuaBB/TCUgP3gECOGtnt3AVOmufVGjkccqYzt/U0aooouYXAmpVwmgmUdklsrwMiKt8cMTqPQ9O1XJpxUjyQixFYVhAuCvMA58RQEIb0aQ7SaVHSs4kc1vr/KKMJS7l3M6YbLySK7wIRLiYqSxzCwyLMCiNpOSSSv5e7vLD/2Y6xxkslyYnPMarz7wxS8Wccb3RSO4z3V82DAJI7YirS/B8X/ELFUl28s+pfcIQa7RQhhELwQLLMlBN1zbaOtnMbouIOaAqHcCgrt4ZwkbGo1FYnYqNMpMWGXRdPj7/5ry73tH2VFv0klXi1CBWfeb/GhiRClLBzMjcxX9hppo5wyeH3baQB7XbuVSWvq2kRBx9exw5VzA9eKqJWR9PgKIXdrMicgJjCoF8kNPkxa/pUQVKNZkgEwJN0eu3z09HEURZvujE3DWjtRx8I4aucE1uN46s8h+IoXbhnsyPWMV8rmmSoppwU2z0vnLEYQjCs2CuyYRkZXIfyfls8goHhRKkPgtTJ9mqgA5/qWCXFIGBowkB34MbWtXU3lsiL1Y6Ol1oQ/tpxSXSS5+Hn84zyWsyC5/tDekMPoH8lvlnLkTAfFo3OJ80lqVsQvOm9225jcQNaVTiyqnS/8Fv3mMvWmC3pLbPk6wpWGWXrZl8zz84="
