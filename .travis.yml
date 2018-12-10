@@ -3,5 +3,9 @@ language: go
 go:
   - '1.11'
 
+before_script:
+  - curl -L https://git.io/vp6lP | sh
+
 script:
+  - PATH=`pwd`/bin:$PATH bin/gometalinter ./...
   - go test -v ./...
